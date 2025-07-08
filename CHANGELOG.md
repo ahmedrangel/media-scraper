@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.3
+
+[compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.0.2...v0.0.3)
+
+### 🩹 Fixes
+
+- **reddit:** Author data fetch ([c7f68bf](https://github.com/ahmedrangel/media-scraper/commit/c7f68bf))
+
+### ❤️ Contributors
+
+- Ahmed Rangel ([@ahmedrangel](https://github.com/ahmedrangel))
+
 ## v0.0.2
 
 [compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.0.1...v0.0.2)
