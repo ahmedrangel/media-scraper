@@ -54,7 +54,12 @@ export default async (url: string): Promise<RedditMedia> => {
   };
   const videoData = crosspostData || data;
   const buildedData = await buildVideoObject(videoData);
-  const authorData = await $fetch(`${protocol}//${host}/user/${videoData?.author}/about.json`);
+  const authorData = await $fetch(`${protocol}//${host}/user/${videoData?.author}/about.json`, {
+    headers: {
+      "User-Agent": userAgent,
+      "Cookie": cookie
+    }
+  }).catch(() => null);
 
   return {
     id: data?.id,
