@@ -4,12 +4,12 @@ TypeScript-first multi-platform social media scraper without API keys.
 ## Usage
 
 ### Import
-`import getMedia from "media-scraper/<platform>"`
+`import scrape from "media-scraper/<platform>"`
 
 ```js
-import getInstagram from "media-scraper/instagram"
+import scrape from "media-scraper/instagram"
 
-const data = await getInstagram("https://www.instagram.com/reel/CtjoC2BNsB2")
+const data = await scrape("https://www.instagram.com/reel/CtjoC2BNsB2")
 ```
 
 ## Supported platforms
