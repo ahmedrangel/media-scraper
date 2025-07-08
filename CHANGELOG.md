@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.4
+
+[compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.0.3...v0.0.4)
+
+### 🩹 Fixes
+
+- **instagram:** Add permalink_url type ([f8d9721](https://github.com/ahmedrangel/media-scraper/commit/f8d9721))
+
+### ❤️ Contributors
+
+- Ahmed Rangel ([@ahmedrangel](https://github.com/ahmedrangel))
+
 ## v0.0.3
 
 [compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.0.2...v0.0.3)
