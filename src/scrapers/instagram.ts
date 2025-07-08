@@ -76,6 +76,7 @@ interface InstagramMedia {
   id: string;
   code?: string;
   caption?: string;
+  permalink_url: string;
   thumnail_url: string;
   author: GenericAuthorObject;
   width?: number;
