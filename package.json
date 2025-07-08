@@ -1,0 +1,91 @@
+{
+	"name": "media-scraper",
+	"type": "module",
+	"version": "0.0.0",
+	"description": "TypeScript-first multi-platform social media scraper without API keys",
+	"keywords": [
+		"scraper",
+		"social-media",
+		"instagram",
+		"x",
+		"threads",
+		"tiktok",
+		"reddit",
+		"twitch",
+		"facebook"
+	],
+	"scripts": {
+		"build": "unbuild",
+		"dev": "node playground/index.js",
+		"lint": "eslint",
+		"test:types": "tsc --noEmit"
+	},
+	"homepage": "https://github.com/ahmedrangel/media-scraper",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ahmedrangel/media-scraper"
+	},
+	"bugs": {
+		"url": "https://github.com/ahmedrangel/media-scraper/issues"
+	},
+	"changelog": {
+		"repo": {
+			"repo": "ahmedrangel/media-scraper",
+			"provider": "github",
+			"domain": "github.com"
+		}
+	},
+	"exports": {
+		"./facebook": {
+			"import": "./dist/scrapers/facebook.mjs",
+			"types": "./dist/scrapers/facebook.d.ts"
+		},
+		"./instagram": {
+			"import": "./dist/scrapers/instagram.mjs",
+			"types": "./dist/scrapers/instagram.d.ts"
+		},
+		"./threads": {
+			"import": "./dist/scrapers/threads.mjs",
+			"types": "./dist/scrapers/threads.d.ts"
+		},
+		"./x": {
+			"import": "./dist/scrapers/x.mjs",
+			"types": "./dist/scrapers/x.d.ts"
+		},
+		"./twitch": {
+			"import": "./dist/scrapers/twitch.mjs",
+			"types": "./dist/scrapers/twitch.d.ts"
+		},
+		"./tiktok": {
+			"import": "./dist/scrapers/tiktok.mjs",
+			"types": "./dist/scrapers/tiktok.d.ts"
+		},
+		"./reddit": {
+			"import": "./dist/scrapers/reddit.mjs",
+			"types": "./dist/scrapers/reddit.d.ts"
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"dependencies": {
+		"@lami/x-client-transaction-id": "npm:@jsr/lami__x-client-transaction-id@^0.1.8",
+		"cheerio": "^1.1.0",
+		"linkedom": "^0.18.11",
+		"ofetch": "^1.4.1",
+		"ufo": "^1.6.1"
+	},
+	"devDependencies": {
+		"@eslint/compat": "^1.3.1",
+		"@stylistic/eslint-plugin": "^5.1.0",
+		"@types/node": "^24.0.10",
+		"@typescript-eslint/eslint-plugin": "^8.36.0",
+		"@typescript-eslint/parser": "^8.36.0",
+		"changelogen": "^0.6.2",
+		"eslint": "^9.30.1",
+		"eslint-plugin-import-x": "^4.16.1",
+		"typescript": "^5.8.3",
+		"unbuild": "^3.5.0"
+	},
+	"packageManager": "pnpm@10.12.4"
+}
