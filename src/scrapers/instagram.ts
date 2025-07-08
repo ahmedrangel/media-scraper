@@ -35,7 +35,7 @@ export default async (url: string): Promise<InstagramMedia> => {
   return {
     id: data?.id,
     code: data?.shortcode,
-    caption: data?.edge_media_to_caption?.edges?.[0]?.node?.text,
+    caption: data?.edge_media_to_caption?.edges?.[0]?.node?.text?.trim(),
     permalink_url: `https://www.instagram.com/p/${data?.shortcode}/`,
     thumnail_url: data?.display_url || data?.thumbnail_src,
     author: {

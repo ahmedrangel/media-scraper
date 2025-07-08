@@ -44,7 +44,8 @@ export default async (url: string): Promise<TwitchMedia> => {
   return {
     id: clip?.id,
     slug: clip?.slug,
-    title: clip?.title,
+    title: clip?.title?.trim(),
+    caption: clip?.title?.trim(),
     view_count: clip?.viewCount,
     permalink_url: clip?.url,
     thumbnail_url: clip?.thumbnailURL,
@@ -76,7 +77,8 @@ export default async (url: string): Promise<TwitchMedia> => {
 interface TwitchMedia {
   id: string;
   slug: string;
-  title: string;
+  title?: string;
+  caption?: string;
   view_count: number;
   permalink_url: string;
   thumbnail_url: string;

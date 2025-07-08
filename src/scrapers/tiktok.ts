@@ -62,7 +62,7 @@ export default async (url: string): Promise<TikTokMedia> => {
 
   return {
     id: item?.aweme_id || tikwm?.id,
-    caption: item?.desc || tikwm?.title,
+    caption: item?.desc?.trim() || tikwm?.title?.trim(),
     permalink_url: `https://www.tiktok.com/@${item?.author?.unique_id || tikwm?.author?.unique_id}/video/${item?.aweme_id || tikwm?.id}`,
     thumbnail_url: item?.video?.cover?.url_list.filter((url: string) => url.includes(".jpeg"))?.[0] || item?.video?.origin_cover?.url_list?.[0] || tikwm?.origin_cover,
     author: {

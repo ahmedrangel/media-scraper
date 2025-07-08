@@ -37,7 +37,7 @@ export default async (url: string): Promise<FacebookMedia> => {
 
   return {
     id: video.id,
-    caption,
+    caption: caption?.trim(),
     permalink_url: media?.permalink_url || media?.url,
     thumbnail_url,
     width,

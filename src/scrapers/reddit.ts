@@ -58,7 +58,7 @@ export default async (url: string): Promise<RedditMedia> => {
 
   return {
     id: data?.id,
-    caption: data?.title,
+    caption: data?.title?.trim(),
     permalink_url: `${protocol}//${host}${data?.permalink}`,
     thumbnail_url: data?.thumbnail?.replace(/&amp;/g, "&"),
     short_url: data?.url,

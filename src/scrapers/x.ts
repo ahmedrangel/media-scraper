@@ -63,7 +63,7 @@ export default async (url: string): Promise<XMedia> => {
     const author = data?.core?.user_results?.result;
     return {
       id: data?.rest_id,
-      caption: legacy?.full_text,
+      caption: legacy?.full_text?.trim(),
       permalink_url: `https://x.com/${author?.core?.screen_name}/status/${data?.rest_id}`,
       author: {
         id: author?.rest_id,

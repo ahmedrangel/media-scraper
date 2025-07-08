@@ -41,7 +41,7 @@ export default async (url: string): Promise<ThreadsMedia> => {
     id: data.id,
     pk: data.pk,
     code: data.code,
-    caption: data?.caption?.text,
+    caption: data?.caption?.text?.trim(),
     permalink_url: `https://www.threads.com/@${data?.user?.username}/post/${data.code}/`,
     author: {
       id: data?.user?.id,
