@@ -1,6 +1,23 @@
 # Changelog
 
 
+## v0.0.5
+
+[compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.0.4...v0.0.5)
+
+### 🩹 Fixes
+
+- **x:** Adjust x scraper ([0f39732](https://github.com/ahmedrangel/media-scraper/commit/0f39732))
+
+### 🏡 Chore
+
+- **readme:** Update ([1a3ca0f](https://github.com/ahmedrangel/media-scraper/commit/1a3ca0f))
+- **x:** Use x-client-transaction-id npm package ([7a40ae0](https://github.com/ahmedrangel/media-scraper/commit/7a40ae0))
+
+### ❤️ Contributors
+
+- Ahmed Rangel ([@ahmedrangel](https://github.com/ahmedrangel))
+
 ## v0.0.4
 
 [compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.0.3...v0.0.4)
