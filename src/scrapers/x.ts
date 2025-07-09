@@ -1,5 +1,5 @@
 import { $fetch } from "ofetch";
-import { ClientTransaction } from "@lami/x-client-transaction-id";
+import { ClientTransaction } from "x-client-transaction-id";
 import { parseHTML } from "linkedom";
 import { load } from "cheerio";
 import { twitterHeaders } from "../utils/helpers";
