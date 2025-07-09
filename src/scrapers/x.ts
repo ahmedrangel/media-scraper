@@ -28,7 +28,6 @@ export default async (url: string): Promise<XMedia> => {
       }
     }
   }
-  const cookie = cookies.map(c => `${c.key}=${c.value}`).join("; ");
   const guestToken = cookies.find(c => c.key === "gt")?.value || "";
   const dom = parseHTML(html);
   const document = dom.window.document;
@@ -48,7 +47,7 @@ export default async (url: string): Promise<XMedia> => {
     query: { variables, features, fieldToggles },
     headers: {
       ...twitterHeaders,
-      "Cookie": cookie,
+      "Cookie": `guest_id_marketing=v1%3A${guestToken}; guest_id_ads=v1%3A${guestToken}; guest_id=v1%3A${guestToken};  gt=${guestToken};`,
       "Authorization": "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA",
       "X-Guest-Token": guestToken,
       "X-Client-Transaction-Id": transactionId
