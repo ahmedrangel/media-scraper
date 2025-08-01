@@ -49,7 +49,7 @@ export default async (url: string): Promise<TikTokMedia> => {
     }
   }).catch(() => null);
 
-  const item = post?.aweme_list.find((item: any) => item?.aweme_id === tt_id);
+  const item = post?.aweme_list?.find((item: any) => item?.aweme_id === tt_id);
   let tikwm;
 
   if (!item) {
