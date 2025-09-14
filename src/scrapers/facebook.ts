@@ -28,10 +28,10 @@ export default async (url: string): Promise<FacebookMedia> => {
 
   const video = data?.video;
   const caption = video?.creation_story?.message?.text || metaDescription;
-  const attachment = video?.story?.attachments?.find((item: Record<string, any>) => item?.media?.id === video?.id);
-  const media = attachment?.media || video.creation_story.short_form_video_context.playback_video;
-  const { width, height } = media;
-  const duration = media.playable_duration_in_ms || (media?.length_in_second ? media.length_in_second * 1000 : undefined);
+  const attachment = video?.story?.attachments?.find((item: Record<string, any>) => item?.media?.id === video?.id) || video?.creation_story?.attachments?.[0];
+  const media = attachment?.media || video?.creation_story?.short_form_video_context?.playback_video;
+  const { width, height } = media || {};
+  const duration = media?.playable_duration_in_ms || (media?.length_in_second ? media.length_in_second * 1000 : undefined);
   const thumbnail_url = media?.thumbnailImage?.uri || media?.preferred_thumbnail?.image?.uri;
   const playback_video = media?.videoDeliveryLegacyFields;
 
@@ -42,7 +42,7 @@ export default async (url: string): Promise<FacebookMedia> => {
     thumbnail_url,
     width,
     height,
-    created_at: media?.publish_time,
+    created_at: media?.publish_time || video?.creation_story?.creation_time,
     video: {
       duration,
       sd_url: playback_video?.browser_native_sd_url,

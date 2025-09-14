@@ -98,9 +98,10 @@ export default async (url: string): Promise<XMedia> => {
       }))
     };
   };
+
   return {
     ...buildResponse(data),
-    quoted: buildResponse(quoted)
+    ...quoted && { quoted: buildResponse(quoted) }
   };
 };
 
