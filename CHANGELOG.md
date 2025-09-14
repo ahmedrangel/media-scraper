@@ -1,6 +1,25 @@
 # Changelog
 
 
+## v0.0.7
+
+[compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.0.6...v0.0.7)
+
+### 🩹 Fixes
+
+- Facebook and x scrapers ([cc0da81](https://github.com/ahmedrangel/media-scraper/commit/cc0da81))
+
+### 🏡 Chore
+
+- **release:** V0.0.6 ([b29bc37](https://github.com/ahmedrangel/media-scraper/commit/b29bc37))
+- Update deps ([f983acd](https://github.com/ahmedrangel/media-scraper/commit/f983acd))
+- Update user agent ([879af83](https://github.com/ahmedrangel/media-scraper/commit/879af83))
+- Add license ([2467a89](https://github.com/ahmedrangel/media-scraper/commit/2467a89))
+
+### ❤️ Contributors
+
+- Ahmed Rangel ([@ahmedrangel](https://github.com/ahmedrangel))
+
 ## v0.0.6
 
 [compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.0.5...v0.0.6)
