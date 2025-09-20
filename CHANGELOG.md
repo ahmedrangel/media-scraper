@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v0.0.8
+
+[compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.0.7...v0.0.8)
+
+### 🩹 Fixes
+
+- **facebook:** Media posibilities ([7701368](https://github.com/ahmedrangel/media-scraper/commit/7701368))
+
+### 🏡 Chore
+
+- Update deps ([477fddc](https://github.com/ahmedrangel/media-scraper/commit/477fddc))
+
+### ❤️ Contributors
+
+- Ahmed Rangel ([@ahmedrangel](https://github.com/ahmedrangel))
+
 ## v0.0.7
 
 [compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.0.6...v0.0.7)
