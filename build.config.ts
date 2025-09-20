@@ -7,7 +7,7 @@ export default defineBuildConfig({
       input: "src",
       outDir: "dist",
       ext: "mjs",
-      name: "edge-scraper",
+      name: "media-scraper",
       builder: "mkdist"
     }
   ]
