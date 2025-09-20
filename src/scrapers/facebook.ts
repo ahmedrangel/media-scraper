@@ -29,7 +29,7 @@ export default async (url: string): Promise<FacebookMedia> => {
   const video = data?.video;
   const caption = video?.creation_story?.message?.text || metaDescription;
   const attachment = video?.story?.attachments?.find((item: Record<string, any>) => item?.media?.id === video?.id) || video?.creation_story?.attachments?.[0];
-  const media = attachment?.media || video?.creation_story?.short_form_video_context?.playback_video;
+  const media = attachment?.media?.width && attachment?.media?.height ? attachment?.media : video?.creation_story?.short_form_video_context?.playback_video;
   const { width, height } = media || {};
   const duration = media?.playable_duration_in_ms || (media?.length_in_second ? media.length_in_second * 1000 : undefined);
   const thumbnail_url = media?.thumbnailImage?.uri || media?.preferred_thumbnail?.image?.uri;
