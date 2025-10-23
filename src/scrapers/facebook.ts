@@ -26,6 +26,10 @@ export default async (url: string): Promise<FacebookMedia> => {
     }
   }
 
+  if (!data) {
+    throw new Error("Failed to extract video data from the Facebook URL");
+  }
+
   const video = data?.video;
   const caption = video?.creation_story?.message?.text || metaDescription;
   const attachment = video?.story?.attachments?.find((item: Record<string, any>) => item?.media?.id === video?.id) || video?.creation_story?.attachments?.[0];
@@ -36,7 +40,7 @@ export default async (url: string): Promise<FacebookMedia> => {
   const playback_video = media?.videoDeliveryLegacyFields;
 
   return {
-    id: video.id,
+    id: video?.id,
     caption: caption?.trim(),
     permalink_url: media?.permalink_url || media?.url,
     thumbnail_url,
