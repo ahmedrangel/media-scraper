@@ -1,6 +1,24 @@
 # Changelog
 
 
+## v0.0.9
+
+[compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.0.8...v0.0.9)
+
+### 🩹 Fixes
+
+- **facebook:** Throw error if data null ([0659781](https://github.com/ahmedrangel/media-scraper/commit/0659781))
+- **reddit:** Improve headers ([8df410f](https://github.com/ahmedrangel/media-scraper/commit/8df410f))
+
+### 🏡 Chore
+
+- **pnpm:** Migrate .npmrc options to pnpm-workspace.yaml ([71e4462](https://github.com/ahmedrangel/media-scraper/commit/71e4462))
+- Update deps ([76b728e](https://github.com/ahmedrangel/media-scraper/commit/76b728e))
+
+### ❤️ Contributors
+
+- Ahmed Rangel ([@ahmedrangel](https://github.com/ahmedrangel))
+
 ## v0.0.8
 
 [compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.0.7...v0.0.8)
