@@ -1,21 +1,15 @@
 import { $fetch } from "ofetch";
 import { parseURL } from "ufo";
-import { userAgent } from "../utils/helpers";
+import { redditHeaders } from "../utils/helpers";
 import type { GenericAuthorObject } from "../types";
 import { redditRegex } from "../utils/regex";
 
 export default async (url: string): Promise<RedditMedia> => {
   const match = url.match(redditRegex);
   if (!match) throw new Error("Invalid Reddit URL");
-  const redirect = await $fetch.raw(url, { headers: { "User-Agent": userAgent } }).catch(() => null);
-  url = redirect?.url || url;
-  const cookie = redirect?.headers?.getSetCookie()?.map((item: string) => item.split(";")[0]).join("; ") || "";
   const { protocol, host, pathname } = parseURL(url);
   const jsonData = await $fetch(`${protocol}//${host}${pathname}/.json`, {
-    headers: {
-      "User-Agent": userAgent,
-      "Cookie": cookie
-    }
+    headers: redditHeaders
   }).catch(() => null);
   const { data } = jsonData.find((item: any) => item?.data?.children?.[0]?.kind === "t3")?.data?.children?.[0];
   const crosspostData = data?.crosspost_parent_list?.[0];
@@ -55,10 +49,7 @@ export default async (url: string): Promise<RedditMedia> => {
   const videoData = crosspostData || data;
   const buildedData = await buildVideoObject(videoData);
   const authorData = await $fetch(`${protocol}//${host}/user/${videoData?.author}/about.json`, {
-    headers: {
-      "User-Agent": userAgent,
-      "Cookie": cookie
-    }
+    headers: redditHeaders
   }).catch(() => null);
 
   return {
