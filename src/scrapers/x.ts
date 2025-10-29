@@ -68,7 +68,8 @@ export default async (url: string): Promise<XMedia> => {
         id: author?.rest_id,
         name: author?.core?.name,
         username: author?.core?.screen_name,
-        avatar_url: author?.avatar?.image_url
+        avatar_url: author?.avatar?.image_url,
+        url: author?.core?.screen_name ? `https://x.com/${author?.core?.screen_name}/` : undefined
       },
       reply_count: legacy?.reply_count,
       retweet_count: legacy?.retweet_count,

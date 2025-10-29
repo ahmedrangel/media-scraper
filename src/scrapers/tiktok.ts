@@ -69,7 +69,8 @@ export default async (url: string): Promise<TikTokMedia> => {
       id: item?.author?.uid || tikwm?.author?.id,
       name: item?.author?.nickname || tikwm?.author?.nickname,
       username: item?.author?.unique_id || tikwm?.author?.unique_id,
-      avatar_url: item?.author?.avatar_medium?.url_list.filter((url: string) => url.includes(".jpeg"))?.[0] || item?.author?.avatar_thumb?.url_list?.[0] || tikwm?.author?.avatar
+      avatar_url: item?.author?.avatar_medium?.url_list.filter((url: string) => url.includes(".jpeg"))?.[0] || item?.author?.avatar_thumb?.url_list?.[0] || tikwm?.author?.avatar,
+      url: item?.author?.unique_id || tikwm?.author?.unique_id ? `https://www.tiktok.com/@${item?.author?.unique_id || tikwm?.author?.unique_id}/` : undefined
     },
     like_count: item?.statistics?.digg_count || tikwm?.digg_count,
     download_count: item?.statistics?.download_count || tikwm?.download_count,

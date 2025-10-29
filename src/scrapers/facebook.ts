@@ -48,19 +48,19 @@ export default async (url: string): Promise<FacebookMedia> => {
   const duration = media?.playable_duration_in_ms || (media?.length_in_second ? media.length_in_second * 1000 : undefined);
   const thumbnail_url = media?.thumbnailImage?.uri || media?.preferred_thumbnail?.image?.uri;
   const playback_video = media?.videoDeliveryLegacyFields;
-  const author: GenericAuthorObject = {
-    id: ownerData?.id,
-    name: ownerData?.name,
-    username: ownerData?.name,
-    avatar_url: ownerData?.displayPicture?.uri || ownerData?.profile_pic_uri
-  }
 
   return {
     id: video?.id,
     caption: caption?.trim(),
     permalink_url: media?.permalink_url || media?.url,
     thumbnail_url,
-    author,
+    author: {
+      id: ownerData?.id,
+      name: ownerData?.name,
+      username: ownerData?.name,
+      avatar_url: ownerData?.displayPicture?.uri || ownerData?.profile_pic_uri,
+      url: ownerData?.id ? `https://www.facebook.com/profile.php?id=${ownerData?.id}` : undefined
+    },
     width,
     height,
     created_at: media?.publish_time || video?.creation_story?.creation_time,

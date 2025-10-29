@@ -47,7 +47,8 @@ export default async (url: string): Promise<ThreadsMedia> => {
       id: data?.user?.id,
       name: data?.user?.full_name,
       username: data?.user?.username,
-      avatar_url: data?.user?.profile_pic_url
+      avatar_url: data?.user?.profile_pic_url,
+      url: data?.user?.username ? `https://www.threads.com/@${data?.user?.username}/` : undefined
     },
     likes_count: data?.like_count,
     created_at: data?.taken_at,

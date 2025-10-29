@@ -3,4 +3,5 @@ export interface GenericAuthorObject {
   name: string;
   username: string;
   avatar_url?: string;
+  url?: string;
 }

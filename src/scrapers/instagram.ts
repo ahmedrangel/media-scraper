@@ -42,7 +42,8 @@ export default async (url: string): Promise<InstagramMedia> => {
       id: data?.owner?.id,
       name: data?.owner?.full_name,
       username: data?.owner?.username,
-      avatar_url: data?.owner?.profile_pic_url
+      avatar_url: data?.owner?.profile_pic_url,
+      url: data?.owner?.username ? `https://www.instagram.com/${data?.owner?.username}/` : undefined
     },
     width: data?.dimensions?.width,
     height: data?.dimensions?.height,

@@ -55,13 +55,15 @@ export default async (url: string): Promise<TwitchMedia> => {
       id: clip?.curator?.id,
       name: clip?.curator?.displayName,
       username: clip?.curator?.login,
-      avatar_url: clip?.curator?.profileImageURL
+      avatar_url: clip?.curator?.profileImageURL,
+      url: clip?.curator?.login ? `https://www.twitch.tv/${clip?.curator?.login}/` : undefined
     },
     broadcaster: {
       id: clip?.broadcaster?.id,
       name: clip?.broadcaster?.displayName,
       username: clip?.broadcaster?.login,
-      avatar_url: clip?.broadcaster?.profileImageURL
+      avatar_url: clip?.broadcaster?.profileImageURL,
+      url: clip?.broadcaster?.login ? `https://www.twitch.tv/${clip?.broadcaster?.login}/` : undefined
     },
     video_versions: clip?.videoQualities?.map((vid: any) => {
       const qualityRegexMatch = vid?.sourceURL?.match(/-(\d+)\.mp4/);
