@@ -1,6 +1,23 @@
 # Changelog
 
 
+## v0.1.0
+
+[compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.0.9...v0.1.0)
+
+### 🚀 Enhancements
+
+- **facebook:** Scrape author data ([e10689e](https://github.com/ahmedrangel/media-scraper/commit/e10689e))
+- Add author url prop to all scrapers ([8bc75a1](https://github.com/ahmedrangel/media-scraper/commit/8bc75a1))
+
+### 🏡 Chore
+
+- Update deps ([8f3259a](https://github.com/ahmedrangel/media-scraper/commit/8f3259a))
+
+### ❤️ Contributors
+
+- Ahmed Rangel ([@ahmedrangel](https://github.com/ahmedrangel))
+
 ## v0.0.9
 
 [compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.0.8...v0.0.9)
