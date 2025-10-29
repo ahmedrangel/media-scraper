@@ -2,6 +2,7 @@ import { $fetch } from "ofetch";
 import { load } from "cheerio";
 import { facebookHeaders } from "../utils/helpers";
 import { facebookRegex } from "../utils/regex";
+import type { GenericAuthorObject } from "../types";
 
 export default async (url: string): Promise<FacebookMedia> => {
   const match = url.match(facebookRegex);
@@ -16,13 +17,22 @@ export default async (url: string): Promise<FacebookMedia> => {
   const mustInclude = ["RelayPrefetchedStreamCache", "videoDeliveryLegacyFields"];
   const mustNotInclude = ["CometUFI"];
 
+  const ownerMustInclude = ["video_owner", "displayPicture"];
+  const ownerMustInclude2 = ["owner_as_page", "profile_pic_uri"];
+
   let data;
+  let ownerData;
 
   for (const script of scripts) {
     const content = $(script).html();
     if (content && mustInclude.every(term => content.includes(term) && !mustNotInclude.some(term => content.includes(term)))) {
       const json = JSON.parse(content);
       data = json?.require?.[0]?.[3]?.[0]?.__bbox?.require?.find((item: Record<string, any>) => item?.includes("RelayPrefetchedStreamCache"))?.[3]?.[1]?.__bbox?.result?.data;
+    }
+    if (content && (ownerMustInclude.every(term => content.includes(term)) || ownerMustInclude2.every(term => content.includes(term)))) {
+      const json = JSON.parse(content);
+      const fullData = json?.require?.[0]?.[3]?.[0]?.__bbox?.require?.find((item: Record<string, any>) => item?.includes("RelayPrefetchedStreamCache"))?.[3]?.[1]?.__bbox?.result?.data;
+      ownerData = fullData?.video?.creation_story?.short_form_video_context?.video_owner || fullData?.attachments?.[0]?.media?.owner?.owner_as_page;
     }
   }
 
@@ -38,12 +48,19 @@ export default async (url: string): Promise<FacebookMedia> => {
   const duration = media?.playable_duration_in_ms || (media?.length_in_second ? media.length_in_second * 1000 : undefined);
   const thumbnail_url = media?.thumbnailImage?.uri || media?.preferred_thumbnail?.image?.uri;
   const playback_video = media?.videoDeliveryLegacyFields;
+  const author: GenericAuthorObject = {
+    id: ownerData?.id,
+    name: ownerData?.name,
+    username: ownerData?.name,
+    avatar_url: ownerData?.displayPicture?.uri || ownerData?.profile_pic_uri
+  }
 
   return {
     id: video?.id,
     caption: caption?.trim(),
     permalink_url: media?.permalink_url || media?.url,
     thumbnail_url,
+    author,
     width,
     height,
     created_at: media?.publish_time || video?.creation_story?.creation_time,
@@ -68,4 +85,5 @@ interface FacebookMedia {
     sd_url?: string;
     hd_url?: string;
   };
+  author: GenericAuthorObject;
 }
