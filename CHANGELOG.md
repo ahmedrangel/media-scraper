@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v0.1.1
+
+[compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.1.0...v0.1.1)
+
+### 🩹 Fixes
+
+- **instagram:** Regex ([ee16114](https://github.com/ahmedrangel/media-scraper/commit/ee16114))
+
+### 🏡 Chore
+
+- Update deps ([b125edf](https://github.com/ahmedrangel/media-scraper/commit/b125edf))
+
+### ❤️ Contributors
+
+- Ahmed Rangel ([@ahmedrangel](https://github.com/ahmedrangel))
+
 ## v0.1.0
 
 [compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.0.9...v0.1.0)
