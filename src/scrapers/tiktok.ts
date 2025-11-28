@@ -11,45 +11,49 @@ export default async (url: string): Promise<TikTokMedia> => {
   const html = await $fetch(url, {
     headers: { "User-Agent": userAgent }
   }).catch(() => null);
-  if (!html) throw new Error("Failed to fetch the TikTok URL");
-  const $ = load(html);
-  const scripts = $("script[id='__UNIVERSAL_DATA_FOR_REHYDRATION__']");
-  let data;
-  let device_id;
 
-  for (const script of scripts) {
-    const content = $(script).html();
-    if (content?.includes("__DEFAULT_SCOPE__")) {
-      const json = JSON.parse(content);
-      data = json?.__DEFAULT_SCOPE__?.["webapp.video-detail"]?.itemInfo?.itemStruct;
-      device_id = json?.__DEFAULT_SCOPE__?.["webapp.app-context"]?.wid;
-      if (data && device_id) break;
+  let item;
+
+  if (html) {
+    const $ = load(html);
+    const scripts = $("script[id='__UNIVERSAL_DATA_FOR_REHYDRATION__']");
+    let data;
+    let device_id;
+
+    for (const script of scripts) {
+      const content = $(script).html();
+      if (content?.includes("__DEFAULT_SCOPE__")) {
+        const json = JSON.parse(content);
+        data = json?.__DEFAULT_SCOPE__?.["webapp.video-detail"]?.itemInfo?.itemStruct;
+        device_id = json?.__DEFAULT_SCOPE__?.["webapp.app-context"]?.wid;
+        if (data && device_id) break;
+      }
     }
+
+    const tt_id = data?.id;
+    const known_iid = ["7318518857994389254"];
+    const post = await $fetch("https://api22-normal-c-alisg.tiktokv.com/aweme/v1/feed/", {
+      query: {
+        region: "US",
+        carrier_region: "US",
+        aweme_id: tt_id,
+        iid: known_iid[Math.floor(Math.random() * known_iid.length)],
+        device_id,
+        channel: "googleplay",
+        app_name: "musical_ly",
+        version_code: 350103,
+        device_platform: "android",
+        device_type: "ASUS_Z01QD",
+        os_version: 14
+      },
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "User-Agent": userAgent
+      }
+    }).catch(() => null);
+    item = post?.aweme_list?.find((item: any) => item?.aweme_id === tt_id);
   }
 
-  const tt_id = data?.id;
-  const known_iid = ["7318518857994389254"];
-  const post = await $fetch("https://api22-normal-c-alisg.tiktokv.com/aweme/v1/feed/", {
-    query: {
-      region: "US",
-      carrier_region: "US",
-      aweme_id: tt_id,
-      iid: known_iid[Math.floor(Math.random() * known_iid.length)],
-      device_id,
-      channel: "googleplay",
-      app_name: "musical_ly",
-      version_code: 350103,
-      device_platform: "android",
-      device_type: "ASUS_Z01QD",
-      os_version: 14
-    },
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      "User-Agent": userAgent
-    }
-  }).catch(() => null);
-
-  const item = post?.aweme_list?.find((item: any) => item?.aweme_id === tt_id);
   let tikwm;
 
   if (!item) {
