@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.1.2
+
+[compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.1.1...v0.1.2)
+
+### 🩹 Fixes
+
+- **tiktok:** Don't throw if failed to fetch tiktok url ([23ff7a0](https://github.com/ahmedrangel/media-scraper/commit/23ff7a0))
+
+### ❤️ Contributors
+
+- Ahmed Rangel ([@ahmedrangel](https://github.com/ahmedrangel))
+
 ## v0.1.1
 
 [compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.1.0...v0.1.1)
