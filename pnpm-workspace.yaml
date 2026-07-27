@@ -1,5 +1,10 @@
+minimumReleaseAge: 0
 shamefullyHoist: true
 strictPeerDependencies: false
 
 packages:
   - playground
+
+allowBuilds:
+  esbuild: false
+  unrs-resolver: false
