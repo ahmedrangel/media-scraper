@@ -1,14 +1,11 @@
-import { defineBuildConfig } from "unbuild";
+import { defineBuildConfig } from "obuild/config";
 
 export default defineBuildConfig({
-  declaration: true,
   entries: [
     {
+      type: "transform",
       input: "src",
-      outDir: "dist",
-      ext: "mjs",
-      name: "media-scraper",
-      builder: "mkdist"
+      dts: true
     }
   ]
 });

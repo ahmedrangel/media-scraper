@@ -1,30 +1,30 @@
-export const userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36";
+export const userAgent: string = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36";
 
-const secFetchHeaders = {
+const secFetchHeaders: Record<string, string> = {
   "Sec-Fetch-Dest": "document",
   "Sec-Fetch-Mode": "navigate",
   "Sec-Fetch-Site": "same-origin"
 };
 
-export const facebookHeaders = {
+export const facebookHeaders: Record<string, string> = {
   "User-Agent": userAgent,
   "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
   ...secFetchHeaders
 };
 
-export const threadsHeaders = {
+export const threadsHeaders: Record<string, string> = {
   "User-Agent": userAgent,
   "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
   ...secFetchHeaders
 };
 
-export const instagramHeaders = {
+export const instagramHeaders: Record<string, string> = {
   "User-Agent": userAgent,
   "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
   ...secFetchHeaders
 };
 
-export const twitterHeaders = {
+export const twitterHeaders: Record<string, string> = {
   "Cache-Control": "no-cache",
   "user-agent": userAgent,
   "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
@@ -33,7 +33,7 @@ export const twitterHeaders = {
   ...secFetchHeaders
 };
 
-export const redditHeaders = {
+export const redditHeaders: Record<string, string> = {
   "user-agent": userAgent,
   "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
   "Sec-Fetch-Site": "same-origin",
