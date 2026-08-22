@@ -1,4 +1,5 @@
 import { $fetch } from "ofetch";
+import { load } from "cheerio";
 import { instagramHeaders } from "../utils/helpers";
 import { instagramRegex } from "../utils/regex";
 import type { GenericAuthorObject } from "../types";
@@ -17,58 +18,61 @@ export default async (url: string): Promise<InstagramMedia> => {
   if (!matchId) throw new Error("Invalid Instagram URL format");
 
   const postId = matchId[2];
-  const post = await $fetch("https://www.instagram.com/api/graphql", {
-    method: "POST",
-    query: {
-      doc_id: "10015901848480474",
-      lsd: "AVqbxe3J_YA",
-      variables: { shortcode: postId }
-    },
-    headers: instagramHeaders,
-    responseType: "json"
-  }).catch(() => null);
-
+  const mediaURL = `https://www.instagram.com/p/${postId}/`;
+  const post = await $fetch(mediaURL, { headers: instagramHeaders }).catch(() => null);
   if (!post) throw new Error("Failed to fetch the Instagram URL");
+  const $ = load(post);
+  const scripts = $("script[type='application/json']");
+  const mustInclude = ["RelayPrefetchedStreamCache", "\"code\""];
 
-  const data = post?.data?.xdt_shortcode_media;
+  let data;
+
+  for (const script of scripts) {
+    const content = $(script).html();
+    if (content && mustInclude.every(term => content.includes(term))) {
+      const parsed = JSON.parse(content)?.require?.[0]?.[3]?.[0]?.__bbox?.require?.find(([key]: string) => mustInclude.includes(key))?.[3]?.[1]?.__bbox?.result?.data?.xig_polaris_media?.if_not_gated_logged_out;
+      data = parsed;
+    }
+  }
+
+  if (!data) throw new Error("Failed to extract media data from Instagram");
 
   return {
-    id: data?.id,
-    code: data?.shortcode,
-    caption: data?.edge_media_to_caption?.edges?.[0]?.node?.text?.trim(),
-    permalink_url: `https://www.instagram.com/p/${data?.shortcode}/`,
-    thumnail_url: data?.display_url || data?.thumbnail_src,
+    id: data?.pk,
+    code: data?.code,
+    caption: data?.caption?.text?.trim(),
+    permalink_url: `https://www.instagram.com/p/${data?.code}/`,
+    thumbnail_url: data?.display_uri,
     author: {
-      id: data?.owner?.id,
-      name: data?.owner?.full_name,
-      username: data?.owner?.username,
-      avatar_url: data?.owner?.profile_pic_url,
-      url: data?.owner?.username ? `https://www.instagram.com/${data?.owner?.username}/` : undefined
+      id: data?.user?.pk,
+      name: data?.user?.full_name,
+      username: data?.user?.username,
+      avatar_url: data?.user?.profile_pic_url,
+      url: data?.user?.username ? `https://www.instagram.com/${data?.user?.username}/` : undefined
     },
-    width: data?.dimensions?.width,
-    height: data?.dimensions?.height,
-    likes_count: data?.edge_media_preview_like?.count,
-    type: data?.__typename === "XDTGraphSidecar" ? "carousel" : data?.__typename === "XDTGraphVideo" ? "video" : "image",
-    created_at: data?.taken_at_timestamp,
-    ...data?.video_url && {
-      video: {
-        duration: (data?.video_duration ? data?.video_duration * 1000 : undefined),
-        url: data?.video_url
-      }
-    },
-    carousel_media: data?.edge_sidecar_to_children?.edges?.map((item: any) => ({
-      id: item?.node?.id,
-      code: item?.node?.shortcode,
-      thumbnail_url: item?.node?.display_url || item?.node?.thumbnail_src,
-      width: item?.node?.dimensions?.width,
-      height: item?.node?.dimensions?.height,
-      type: item?.node?.__typename === "XDTGraphVideo" ? "video" : "image",
-      ...item?.node?.video_url && {
-        video: {
-          duration: (item?.node?.video_duration ? item?.node?.video_duration * 1000 : undefined),
-          url: item?.node?.video_url
-        }
-      }
+    width: data?.original_width,
+    height: data?.original_height,
+    likes_count: data?.like_count,
+    type: data?.__typename === "XIGPolarisCarouselMedia" ? "carousel" : data?.__typename === "XIGPolarisVideoMedia" ? "video" : "image",
+    created_at: data?.taken_at,
+    image_versions: data?.image_versions2?.candidates?.map((img: any) => ({
+      width: img?.width,
+      height: img?.height,
+      url: img?.url
+    })),
+    video_versions: data?.video_versions,
+    carousel_media: data?.carousel_media?.map((item: any) => ({
+      id: item?.pk,
+      type: item?.__typename === "XIGPolarisVideoMedia" ? "video" : "image",
+      image_versions: item?.image_versions2?.candidates?.map((img: any) => ({
+        width: img?.width,
+        height: img?.height,
+        url: img?.url
+      })),
+      video_versions: item?.video_versions?.map((vid: any) => ({
+        type: vid?.type,
+        url: vid?.url
+      }))
     }))
   };
 };
@@ -78,26 +82,30 @@ interface InstagramMedia {
   code?: string;
   caption?: string;
   permalink_url: string;
-  thumnail_url: string;
+  thumbnail_url: string;
   author: GenericAuthorObject;
   width?: number;
   height?: number;
   likes_count?: number;
   type?: "image" | "video" | "carousel";
   created_at?: number;
-  video?: InstagramVideo;
+  image_versions?: InstagramImageVersion[];
+  video_versions?: InstagramVideoVersion[];
   carousel_media?: {
     id: string;
-    code?: string;
-    thumbnail_url: string;
-    width?: number;
-    height?: number;
     type?: "image" | "video";
-    video?: InstagramVideo;
+    image_versions?: InstagramImageVersion[];
+    video_versions?: InstagramVideoVersion[];
   }[];
 }
 
-interface InstagramVideo {
-  duration?: number;
-  url?: string;
+interface InstagramImageVersion {
+  width?: number;
+  height?: number;
+  url: string;
+}
+
+interface InstagramVideoVersion {
+  type: number;
+  url: string;
 }

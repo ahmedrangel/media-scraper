@@ -78,14 +78,14 @@
 	"devDependencies": {
 		"@eslint/compat": "^2.1.0",
 		"@stylistic/eslint-plugin": "^5.10.0",
-		"@types/node": "^26.1.2",
+		"@types/node": "^26.2.0",
 		"@typescript-eslint/eslint-plugin": "^8.65.0",
-		"@typescript-eslint/parser": "^8.65.0",
+		"@typescript-eslint/parser": "^8.67.0",
 		"changelogen": "^0.6.2",
-		"eslint": "^10.8.0",
+		"eslint": "^10.9.0",
 		"eslint-plugin-import-x": "^4.17.1",
 		"typescript": "^6.0.3",
 		"unbuild": "^3.6.1"
 	},
-	"packageManager": "pnpm@11.17.0"
+	"packageManager": "pnpm@11.22.0"
 }
