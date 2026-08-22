@@ -1,5 +1,6 @@
 import { $fetch } from "ofetch";
 import { parseURL } from "ufo";
+import { load } from "cheerio";
 import { redditHeaders } from "../utils/helpers";
 import type { GenericAuthorObject } from "../types";
 import { redditRegex } from "../utils/regex";
@@ -8,10 +9,49 @@ export default async (url: string): Promise<RedditMedia> => {
   const match = url.match(redditRegex);
   if (!match) throw new Error("Invalid Reddit URL");
   const { protocol, host, pathname } = parseURL(url);
-  const jsonData = await $fetch(`${protocol}//${host}${pathname}/.json`, {
-    headers: redditHeaders
+  const redditURL = `${protocol}//${host}${pathname}`;
+
+  const html = await $fetch(redditURL, { headers: redditHeaders }).catch(() => null);
+  if (!html) throw new Error("Failed to fetch the Reddit URL");
+
+  const $ = load(html);
+  const form = $("form").first();
+  const params = new URLSearchParams();
+  form.find('input[type="hidden"]').each((_, input) => {
+  const name = $(input).attr("name");
+  const value = $(input).attr("value") ?? "";
+    if (name) params.append(name, value);
+  });
+
+  let scriptContent = "";
+  $("script").each((_, el) => {
+    const html = $(el).html() || $(el).text() || "";
+    if (/async\s*e\s*=>\s*e\s*\+\s*e/.test(html)) {
+      scriptContent = html;
+    }
+  });
+
+  const jsSolution = scriptContent.match(/await\s*\(\s*async\s*e\s*=>\s*e\s*\+\s*e\s*\)\(\s*["']([^"']+)["']\s*\)/);
+  if (jsSolution) params.set("solution", jsSolution[1] + jsSolution[1]);
+  params.set("js_challenge", "1");
+
+  const submitResponse = await $fetch.raw(redditURL + "?" + params.toString(), {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      ...redditHeaders
+    },
   }).catch(() => null);
-  const { data } = jsonData.find((item: any) => item?.data?.children?.[0]?.kind === "t3")?.data?.children?.[0];
+
+  const cookies = submitResponse?.headers?.get("set-cookie") || "";
+
+  const jsonData = await $fetch(`${redditURL}/.json`, {
+    headers: {
+      "Cookie": cookies,
+      ...redditHeaders,
+    }
+  }).catch(() => null);
+
+  const { data } = jsonData?.find((item: any) => item?.data?.children?.[0]?.kind === "t3")?.data?.children?.[0];
   const crosspostData = data?.crosspost_parent_list?.[0];
   const buildVideoObject = async (videoData: any) => {
     if (videoData?.is_video || videoData?.url?.includes(".gif")) {
@@ -49,7 +89,10 @@ export default async (url: string): Promise<RedditMedia> => {
   const videoData = crosspostData || data;
   const buildedData = await buildVideoObject(videoData);
   const authorData = await $fetch(`${protocol}//${host}/user/${videoData?.author}/about.json`, {
-    headers: redditHeaders
+    headers: {
+      "Cookie": cookies,
+      ...redditHeaders
+    }
   }).catch(() => null);
 
   return {
