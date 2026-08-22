@@ -1,7 +1,5 @@
 import { $fetch } from "ofetch";
-import { ClientTransaction } from "x-client-transaction-id";
-import { parseHTML } from "linkedom";
-import { load } from "cheerio";
+import { ClientTransaction, fetchXDocument  } from "x-client-transaction-id";
 import { twitterHeaders } from "../utils/helpers";
 import { twitterRegex } from "../utils/regex";
 
@@ -9,28 +7,7 @@ export default async (url: string): Promise<XMedia> => {
   const match = url.match(twitterRegex);
   if (!match) throw new Error("Invalid X (Twitter) URL");
 
-  const html = await $fetch("https://x.com", { headers: twitterHeaders, responseType: "text" }).catch(() => null);
-  if (!html) throw new Error("Failed to fetch the X (Twitter) URL");
-  const $ = load(html);
-  const script_nonce = $("script[nonce]");
-  const cookieRegex = /document\.cookie="([^"]+)";/g;
-  const cookies = [];
-  let cookieMatch;
-  for (const script of script_nonce) {
-    const content = $(script).html();
-    if (content && content.includes("document.cookie")) {
-      while ((cookieMatch = cookieRegex.exec(content)) !== null) {
-        const [key, value] = cookieMatch[1].split(";")[0].trim()?.split("=");
-        cookies.push({
-          key: decodeURIComponent(key.trim()),
-          value: decodeURIComponent(value.trim())
-        });
-      }
-    }
-  }
-  const guestToken = cookies.find(c => c.key === "gt")?.value || "";
-  const dom = parseHTML(html);
-  const document = dom.window.document;
+  const document = await fetchXDocument();
   const transaction = new ClientTransaction(document);
   await transaction.initialize();
   const graphqlPath = "/graphql/SAvsJgT-uo2NRaJBVX9-Hg/TweetResultByRestId";
@@ -47,9 +24,7 @@ export default async (url: string): Promise<XMedia> => {
     query: { variables, features, fieldToggles },
     headers: {
       ...twitterHeaders,
-      "Cookie": `guest_id_marketing=v1%3A${guestToken}; guest_id_ads=v1%3A${guestToken}; guest_id=v1%3A${guestToken};  gt=${guestToken};`,
       "Authorization": "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA",
-      "X-Guest-Token": guestToken,
       "X-Client-Transaction-Id": transactionId
     }
   }).catch(() => null);
