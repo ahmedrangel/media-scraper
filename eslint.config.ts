@@ -1,6 +1,5 @@
 import { resolve } from "node:path";
-import { defineConfig } from "eslint/config";
-import { includeIgnoreFile } from "@eslint/compat";
+import { defineConfig, includeIgnoreFile } from "eslint/config";
 import parserTs from "@typescript-eslint/parser";
 import stylisticPlugin from "@stylistic/eslint-plugin";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
@@ -14,7 +13,6 @@ export default defineConfig([
       "@stylistic": stylisticPlugin,
       // @ts-expect-error typescript plugin
       "@typescript-eslint": tsPlugin,
-      // @ts-expect-error import plugin
       "import": importPlugin
     },
     languageOptions: {
