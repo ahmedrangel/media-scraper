@@ -1,6 +1,30 @@
 # Changelog
 
 
+## v0.2.1
+
+[compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.2.0...v0.2.1)
+
+### 🩹 Fixes
+
+- **reddit:** Bypass js challenge ([4e51cd0](https://github.com/ahmedrangel/media-scraper/commit/4e51cd0))
+
+### 💅 Refactors
+
+- **headers:** Centralize common scraper headers ([924ab76](https://github.com/ahmedrangel/media-scraper/commit/924ab76))
+
+### 📖 Documentation
+
+- Add installation instructions and npm badge ([d7f5701](https://github.com/ahmedrangel/media-scraper/commit/d7f5701))
+
+### 🏡 Chore
+
+- **eslint:** Use includeIgnoreFile from eslint/config ([514c387](https://github.com/ahmedrangel/media-scraper/commit/514c387))
+
+### ❤️ Contributors
+
+- Ahmed Rangel ([@ahmedrangel](https://github.com/ahmedrangel))
+
 ## v0.2.0
 
 [compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.1.3...v0.2.0)
