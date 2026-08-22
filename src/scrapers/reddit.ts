@@ -1,18 +1,26 @@
 import { $fetch } from "ofetch";
-import { parseURL } from "ufo";
-import { load } from "cheerio";
+import { parseURL, withQuery } from "ufo";
 import { redditHeaders } from "../utils/helpers";
 import type { GenericAuthorObject } from "../types";
 import { redditRegex } from "../utils/regex";
+import { load } from "cheerio";
 
 export default async (url: string): Promise<RedditMedia> => {
   const match = url.match(redditRegex);
   if (!match) throw new Error("Invalid Reddit URL");
   const { protocol, host, pathname } = parseURL(url);
-  const redditURL = `${protocol}//${host}${pathname}`;
+  let redditURL = `${protocol}//${host}${pathname}`;
 
-  const html = await $fetch(redditURL, { headers: redditHeaders }).catch(() => null);
-  if (!html) throw new Error("Failed to fetch the Reddit URL");
+  const firstCall = await $fetch.raw(redditURL, { headers: redditHeaders }).catch(() => null);
+  if (!firstCall) throw new Error("Failed to fetch the Reddit URL");
+
+  let html = "";
+
+  if (firstCall.redirected) {
+    const { protocol, host, pathname } = parseURL(firstCall.url);
+    redditURL = `${protocol}//${host}${pathname}`;
+    html = await $fetch(redditURL, { headers: redditHeaders }).catch(() => null);
+  }
 
   const $ = load(html);
   const form = $("form").first();
@@ -62,19 +70,22 @@ export default async (url: string): Promise<RedditMedia> => {
       else {
         const dash = videoData?.media?.reddit_video?.dash_url;
         const xmlString = await $fetch(dash, { responseType: "text" }).catch(() => null);
-        const dashAudio = xmlString?.match(/<AdaptationSet[^>]+contentType="audio"[^>]*>[\s\S]+?<BaseURL>(.*?)<\/BaseURL>/)?.[1];
+        if (!xmlString) return null;
+        const xml = load(xmlString, { xmlMode: true });
+        const dashAudio = xml("Representation").toArray().reduce((prev, curr) => {
+          const bandwidth = parseInt(xml(curr).attr("bandwidth") || "0", 10);
+          const mimeType = xml(curr).attr("mimeType") || "";
+          if (mimeType !== "audio/mp4") return prev;
+          return bandwidth > prev.bandwidth ? { bandwidth, url: xml(curr).find("BaseURL").text() } : prev;
+        }, { bandwidth: 0, url: "" }).url;
         const fallback_audio = `${videoData?.url}/${dashAudio}`;
         const fallback_video = videoData?.media?.reddit_video?.fallback_url;
-        const merge = await $fetch("https://redvid.io/download-link", {
-          query: {
-            token: {
-              video_url: fallback_video,
-              audio_url: fallback_audio,
-              id: data?.id
-            }
-          }
-        }).catch(() => null);
-        finalURL = merge?.url ? `https://redvid.io${merge?.url}` : null;
+        // Use rapidsave.com to merge audio and video into a single URL
+        finalURL = withQuery("https://sd.rapidsave.com/download.php", {
+          permalink: `https://reddit.com${videoData?.permalink}`,
+          video_url: fallback_video,
+          audio_url: fallback_audio
+        });
       }
       if (!finalURL) return null;
       return {
