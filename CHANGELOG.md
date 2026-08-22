@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.2.2
+
+[compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.2.1...v0.2.2)
+
+### 🩹 Fixes
+
+- **reddit:** Handle redirects and video-audio merge using rapidsave ([d2c6eed](https://github.com/ahmedrangel/media-scraper/commit/d2c6eed))
+
+### ❤️ Contributors
+
+- Ahmed Rangel ([@ahmedrangel](https://github.com/ahmedrangel))
+
 ## v0.2.1
 
 [compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.2.0...v0.2.1)
