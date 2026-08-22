@@ -1,6 +1,31 @@
 # Changelog
 
 
+## v0.2.0
+
+[compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.1.3...v0.2.0)
+
+### 🚀 Enhancements
+
+- **instagram:** ⚠️  Migrate scraping method to html ([d722044](https://github.com/ahmedrangel/media-scraper/commit/d722044))
+- **threads:** Add media type metadata ([32636b0](https://github.com/ahmedrangel/media-scraper/commit/32636b0))
+
+### 💅 Refactors
+
+- **x:** Use fetchXDocument for X scraping ([5888483](https://github.com/ahmedrangel/media-scraper/commit/5888483))
+
+### 📦 Build
+
+- Switch from unbuild to obuild ([44d81ba](https://github.com/ahmedrangel/media-scraper/commit/44d81ba))
+
+#### ⚠️ Breaking Changes
+
+- **instagram:** ⚠️  Migrate scraping method to html ([d722044](https://github.com/ahmedrangel/media-scraper/commit/d722044))
+
+### ❤️ Contributors
+
+- Ahmed Rangel ([@ahmedrangel](https://github.com/ahmedrangel))
+
 ## v0.1.3
 
 [compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.1.2...v0.1.3)
