@@ -51,6 +51,7 @@ export default async (url: string): Promise<ThreadsMedia> => {
       url: data?.user?.username ? `https://www.threads.com/@${data?.user?.username}/` : undefined
     },
     likes_count: data?.like_count,
+    type: data?.carousel_media?.length ? "carousel" : data?.video_versions?.length ? "video" : "image",
     created_at: data?.taken_at,
     image_versions: data?.image_versions2?.candidates?.map((img: any) => ({
       width: img?.width,
@@ -61,6 +62,7 @@ export default async (url: string): Promise<ThreadsMedia> => {
     carousel_media: data?.carousel_media?.map((item: any) => ({
       id: item?.id,
       pk: item?.pk,
+      type: item?.video_versions?.length ? "video" : "image",
       image_versions: item?.image_versions2?.candidates?.map((img: any) => ({
         width: img?.width,
         height: img?.height,
@@ -82,11 +84,14 @@ interface ThreadsMedia {
   permalink_url: string;
   author: GenericAuthorObject;
   likes_count?: number;
+  type?: "image" | "video" | "carousel";
   created_at?: number;
   image_versions?: ThreadsImageVersion[];
   video_versions?: ThreadsVideoVersion[];
   carousel_media?: {
     id: string;
+    pk: string;
+    type?: "image" | "video";
     image_versions?: ThreadsImageVersion[];
     video_versions?: ThreadsVideoVersion[];
   }[];
