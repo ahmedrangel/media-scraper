@@ -30,3 +30,8 @@ export const twitterHeaders: Record<string, string> = {
 export const redditHeaders: Record<string, string> = {
   ...sharedHeaders
 };
+
+export const twitchHeaders: Record<string, string> = {
+  "Client-Id": "kimne78kx3ncx6brgo4mv6wki5h1ko",
+  "Content-Type": "application/json"
+};

@@ -11,6 +11,9 @@ importers:
       cheerio:
         specifier: ^1.2.0
         version: 1.2.0
+      gql-payload:
+        specifier: ^2.1.0
+        version: 2.1.0
       ofetch:
         specifier: ^1.5.1
         version: 1.5.1
@@ -891,6 +894,9 @@ packages:
   glob-parent@6.0.2:
     resolution: {integrity: sha512-XxwI8EOhVQgWp6iDL+3b0r86f4d6AX6zSU55HfB4ydCEuXLXc5FcYeOu+nnGftS4TEju/11rt4KJPTMgbfmv4A==}
     engines: {node: '>=10.13.0'}
+
+  gql-payload@2.1.0:
+    resolution: {integrity: sha512-9m1dX7bIjJkhBs03MxplUfG1KsQ5S6al5DnzrZrjARF6jWCtRC1DmjGaozbNxe+L1eIZ7k6wLcR0GOQM1+vpzw==}
 
   html-escaper@3.0.3:
     resolution: {integrity: sha512-RuMffC89BOWQoY0WKGpIhn5gX3iI54O6nRA0yC124NYVtzjmFWBIiFd8M0x+ZdX0P9R4lADg1mgP8C7PxGOWuQ==}
@@ -1947,6 +1953,8 @@ snapshots:
   glob-parent@6.0.2:
     dependencies:
       is-glob: 4.0.3
+
+  gql-payload@2.1.0: {}
 
   html-escaper@3.0.3: {}
 

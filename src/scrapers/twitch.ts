@@ -1,7 +1,9 @@
 import { $fetch } from "ofetch";
 import { withQuery } from "ufo";
+import { gqlQuery } from "gql-payload";
 import { twitchRegex } from "../utils/regex";
 import type { GenericAuthorObject } from "../types";
+import { twitchHeaders } from "../utils/helpers";
 
 export default async (url: string): Promise<TwitchMedia> => {
   const match = url.match(twitchRegex);
@@ -15,29 +17,62 @@ export default async (url: string): Promise<TwitchMedia> => {
 
   const response = await $fetch("https://gql.twitch.tv/gql", {
     method: "POST",
-    headers: {
-      "Client-Id": "kimne78kx3ncx6brgo4mv6wki5h1ko",
-      "Content-Type": "application/json"
-    },
-    body: [
-      {
-        operationName: "ShareClipRenderStatus",
-        variables: { slug: clipId },
-        extensions: {
-          persistedQuery: {
-            version: 1,
-            sha256Hash: "f130048a462a0ac86bb54d653c968c514e9ab9ca94db52368c1179e97b0f16eb"
-          }
-        }
-      }
-    ]
+    headers: twitchHeaders,
+    body: gqlQuery({
+      operation: "clip",
+      variables: {
+        slug: { value: clipId, type: "ID!" }
+      },
+      fields: [
+        "id",
+        "slug",
+        "title",
+        "viewCount",
+        "url",
+        "thumbnailURL",
+        "durationSeconds",
+        "createdAt",
+        {
+          operation: "curator",
+          variables: {},
+          fields: [
+            "id",
+            "displayName",
+            "login",
+            {
+              operation: "profileImageURL",
+              variables: { width: { value: 300, type: "Int!" } },
+              fields: []
+            }
+          ]
+        },
+        {
+          operation: "broadcaster",
+          variables: {},
+          fields: [
+            "id",
+            "displayName",
+            "login",
+            {
+              operation: "profileImageURL",
+              variables: { width: { value: 300, type: "Int!" } },
+              fields: []
+            }
+          ]
+        },
+        {
+          operation: "playbackAccessToken",
+          variables: { params: { value: { platform: "twitch", playerType: "web" }, type: "PlaybackAccessTokenParams!" } },
+          fields: ["signature", "value"]
+        },
+        { videoQualities: ["sourceURL", "quality"] }
+      ]
+    })
   }).catch(() => null);
 
   if (!response) throw new Error("Failed to fetch the Twitch URL");
 
-  const data = response?.[0];
-  const clip = data?.data?.clip;
-
+  const clip = response?.data?.clip;
   const sig = clip?.playbackAccessToken?.signature;
   const token = clip?.playbackAccessToken?.value;
 
@@ -66,11 +101,9 @@ export default async (url: string): Promise<TwitchMedia> => {
       url: clip?.broadcaster?.login ? `https://www.twitch.tv/${clip?.broadcaster?.login}/` : undefined
     },
     video_versions: clip?.videoQualities?.map((vid: any) => {
-      const qualityRegexMatch = vid?.sourceURL?.match(/-(\d+)\.mp4/);
-      const quality = qualityRegexMatch ? Number(qualityRegexMatch[1]) : undefined;
       return {
         url: withQuery(vid?.sourceURL, { sig, token }),
-        quality
+        quality: parseInt(vid.quality)
       };
     })
   };
