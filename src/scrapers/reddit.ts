@@ -46,6 +46,9 @@ export default async (url: string): Promise<RedditMedia> => {
   const submitResponse = await $fetch.raw(redditURL + "?" + params.toString(), {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
+      "Cache-Control": "max-age=0",
+      "Origin": "https://www.reddit.com",
+      "Referer": redditURL,
       ...redditHeaders
     }
   }).catch(() => null);
