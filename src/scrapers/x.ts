@@ -1,5 +1,5 @@
 import { $fetch } from "ofetch";
-import { ClientTransaction, fetchXDocument  } from "x-client-transaction-id";
+import { ClientTransaction, fetchXDocument } from "x-client-transaction-id";
 import { twitterHeaders } from "../utils/helpers";
 import { twitterRegex } from "../utils/regex";
 

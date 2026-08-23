@@ -1,9 +1,9 @@
 import { $fetch } from "ofetch";
 import { parseURL, withQuery } from "ufo";
+import { load } from "cheerio";
 import { redditHeaders } from "../utils/helpers";
 import type { GenericAuthorObject } from "../types";
 import { redditRegex } from "../utils/regex";
-import { load } from "cheerio";
 
 export default async (url: string): Promise<RedditMedia> => {
   const match = url.match(redditRegex);
@@ -25,9 +25,9 @@ export default async (url: string): Promise<RedditMedia> => {
   const $ = load(html);
   const form = $("form").first();
   const params = new URLSearchParams();
-  form.find('input[type="hidden"]').each((_, input) => {
-  const name = $(input).attr("name");
-  const value = $(input).attr("value") ?? "";
+  form.find("input[type=\"hidden\"]").each((_, input) => {
+    const name = $(input).attr("name");
+    const value = $(input).attr("value") ?? "";
     if (name) params.append(name, value);
   });
 
@@ -47,15 +47,15 @@ export default async (url: string): Promise<RedditMedia> => {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
       ...redditHeaders
-    },
+    }
   }).catch(() => null);
 
   const cookies = submitResponse?.headers?.get("set-cookie") || "";
 
   const jsonData = await $fetch(`${redditURL}/.json`, {
     headers: {
-      "Cookie": cookies,
-      ...redditHeaders,
+      Cookie: cookies,
+      ...redditHeaders
     }
   }).catch(() => null);
 
@@ -101,7 +101,7 @@ export default async (url: string): Promise<RedditMedia> => {
   const buildedData = await buildVideoObject(videoData);
   const authorData = await $fetch(`${protocol}//${host}/user/${videoData?.author}/about.json`, {
     headers: {
-      "Cookie": cookies,
+      Cookie: cookies,
       ...redditHeaders
     }
   }).catch(() => null);
