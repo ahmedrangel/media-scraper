@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v0.2.4
+
+[compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.2.3...v0.2.4)
+
+### 🩹 Fixes
+
+- **reddit:** More context headers (fix for edge workers) ([e3f4c79](https://github.com/ahmedrangel/media-scraper/commit/e3f4c79))
+- **reddit:** Use author icon_img as avatar url and use snoovatar_img as fallback ([95d765d](https://github.com/ahmedrangel/media-scraper/commit/95d765d))
+
+### ❤️ Contributors
+
+- Ahmed Rangel ([@ahmedrangel](https://github.com/ahmedrangel))
+
 ## v0.2.3
 
 [compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.2.2...v0.2.3)
