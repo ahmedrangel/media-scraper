@@ -119,7 +119,7 @@ export default async (url: string): Promise<RedditMedia> => {
       id: data?.author_fullname?.replace("t2_", ""),
       name: data?.author,
       username: data?.author,
-      avatar_url: authorData?.data?.snoovatar_img,
+      avatar_url: authorData?.data?.icon_img?.replace(/&amp;/g, "&") || authorData?.data?.snoovatar_img,
       url: data?.author ? `https://www.reddit.com/user/${data?.author}/` : undefined
     },
     up_count: data?.ups,
