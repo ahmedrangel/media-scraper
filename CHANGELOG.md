@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v0.2.3
+
+[compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.2.2...v0.2.3)
+
+### 🩹 Fixes
+
+- **twitch:** Drop persisted query, build gql payload ([a6ab30c](https://github.com/ahmedrangel/media-scraper/commit/a6ab30c))
+
+### 🏡 Chore
+
+- Lint ([f978160](https://github.com/ahmedrangel/media-scraper/commit/f978160))
+
+### ❤️ Contributors
+
+- Ahmed Rangel ([@ahmedrangel](https://github.com/ahmedrangel))
+
 ## v0.2.2
 
 [compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.2.1...v0.2.2)
