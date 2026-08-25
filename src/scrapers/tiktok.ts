@@ -1,36 +1,30 @@
 import { $fetch } from "ofetch";
-import { load } from "cheerio";
 import { tiktokRegex } from "../utils/regex";
-import { userAgent } from "../utils/helpers";
+import { mobileUserAgent, tiktokHeaders } from "../utils/helpers";
 import type { GenericAuthorObject } from "../types";
 
 export default async (url: string): Promise<TikTokMedia> => {
   const match = url.match(tiktokRegex);
   if (!match) throw new Error("Invalid TikTok URL");
 
-  const html = await $fetch(url, {
-    headers: { "User-Agent": userAgent }
+  const tiktokFetch = await $fetch.raw(url, {
+    headers: { ...tiktokHeaders }
   }).catch(() => null);
+
+  const tt_id = tiktokFetch?.url?.match(/\/video\/(\d+)/)?.[1];
+
+  const webappContext = await $fetch("https://www.tiktok.com/node-webapp/api/common-app-context", {
+    query: { lang: "en" },
+    headers: {
+      ...tiktokHeaders
+    }
+  }).catch(() => null);
+
+  const device_id = webappContext?.wid;
 
   let item;
 
-  if (html) {
-    const $ = load(html);
-    const scripts = $("script[id='__UNIVERSAL_DATA_FOR_REHYDRATION__']");
-    let data;
-    let device_id;
-
-    for (const script of scripts) {
-      const content = $(script).html();
-      if (content?.includes("__DEFAULT_SCOPE__")) {
-        const json = JSON.parse(content);
-        data = json?.__DEFAULT_SCOPE__?.["webapp.video-detail"]?.itemInfo?.itemStruct;
-        device_id = json?.__DEFAULT_SCOPE__?.["webapp.app-context"]?.wid;
-        if (data && device_id) break;
-      }
-    }
-
-    const tt_id = data?.id;
+  if (device_id && tt_id) {
     const known_iid = ["7318518857994389254"];
     const post = await $fetch("https://api22-normal-c-alisg.tiktokv.com/aweme/v1/feed/", {
       query: {
@@ -48,7 +42,7 @@ export default async (url: string): Promise<TikTokMedia> => {
       },
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        "User-Agent": userAgent
+        "User-Agent": mobileUserAgent
       }
     }).catch(() => null);
     item = post?.aweme_list?.find((item: any) => item?.aweme_id === tt_id);
