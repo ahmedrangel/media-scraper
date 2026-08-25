@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.2.5
+
+[compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.2.4...v0.2.5)
+
+### 🩹 Fixes
+
+- **tiktok:** Refactor scraper to use common app context method + mobile api ([c7a7d92](https://github.com/ahmedrangel/media-scraper/commit/c7a7d92))
+
+### ❤️ Contributors
+
+- Ahmed Rangel ([@ahmedrangel](https://github.com/ahmedrangel))
+
 ## v0.2.4
 
 [compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.2.3...v0.2.4)
