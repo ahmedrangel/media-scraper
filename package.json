@@ -2,7 +2,7 @@
 	"name": "media-scraper",
 	"type": "module",
 	"version": "0.2.5",
-	"description": "TypeScript-first multi-platform social media scraper without API keys",
+	"description": "A TypeScript-first, multi-platform social media scraping library with no API keys, authentication, browser automation, or cookies required.",
 	"keywords": [
 		"scraper",
 		"social-media",
