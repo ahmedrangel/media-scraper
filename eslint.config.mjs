@@ -11,7 +11,6 @@ export default defineConfig([
     files: ["**/*.js", "**/*.mjs", "**/*.ts"],
     plugins: {
       "@stylistic": stylisticPlugin,
-      // @ts-expect-error typescript plugin
       "@typescript-eslint": tsPlugin,
       "import": importPlugin
     },
