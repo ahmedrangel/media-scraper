@@ -73,18 +73,17 @@
 		"gql-payload": "^2.1.0",
 		"ofetch": "^1.5.1",
 		"ufo": "^1.6.4",
-		"x-client-transaction-id": "^0.3.1"
+		"x-client-transaction-id": "^0.3.2"
 	},
 	"devDependencies": {
 		"@stylistic/eslint-plugin": "^5.10.0",
-		"@types/node": "^26.3.0",
-		"@typescript-eslint/eslint-plugin": "^8.68.0",
-		"@typescript-eslint/parser": "^8.68.0",
+		"@types/node": "^26.6.5",
 		"changelogen": "^0.6.2",
-		"eslint": "^10.9.1",
+		"eslint": "^10.12.0",
 		"eslint-plugin-import-x": "^4.17.1",
-		"obuild": "^0.4.38",
-		"typescript": "^6.0.3"
+		"obuild": "^0.4.44",
+		"typescript": "^6.0.3",
+		"typescript-eslint": "^8.71.1"
 	},
-	"packageManager": "pnpm@11.23.0"
+	"packageManager": "pnpm@12.10.1"
 }
