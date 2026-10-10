@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.2.7
+
+[compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.2.6...v0.2.7)
+
+### 🏡 Chore
+
+- **eslint:** Update eslint config to mjs ([9372836](https://github.com/ahmedrangel/media-scraper/commit/9372836))
+
+### ❤️ Contributors
+
+- Ahmed Rangel <ahmedrangel@outlook.com>
+
 ## v0.2.6
 
 [compare changes](https://github.com/ahmedrangel/media-scraper/compare/v0.2.5...v0.2.6)
